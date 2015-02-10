@@ -1,0 +1,116 @@
+____MAILWORKER INSTRUCTIONS____
+
+Mailworker is a python script that automate the process of sending emails.
+It takes 2 lists of emails, one list represending the Senders and the other 
+one represending the Receivers.
+By signing in with Senders accounts credentials, sends one by one, the 
+desired email to addresses contained into Receivers list. The script should
+work for any operating system however is written and tested under Linux.
+In order to use it you need basic command lines knowledge.
+
+
+
+
+
+
+____FILES INCLUDED____
+
+mailWorker/
+    -mailWorker.py	: main script
+    -instructions.txt	: the file you are reading
+    -receivers.txt	: list of Receivers
+    modules/
+       -senders.py	: list of Senders
+       -worker.py	: 
+       -testEmail.py	: helper script
+
+
+
+
+
+
+____CONFIGURATION____
+
+In order to configure mailWorker you need to take care of these
+files:
+
+[1]. senders.py         : Senders configuration file
+[2]. testEmail.py	: additional helper script
+[3]. receivers.txt	: Receivers list file
+[4]. mailWorker.py      : main program
+
+
+
+
+[1]. Configure senders.py
+
+By following the examples inside the file set the following variables.
+You can use as many email accounts as you like, however they need to 
+support SMTP protocol. In order to test if the configuration is ok,
+use the testEmail.py helper script below. Think twice before using
+your main email account for this mailWorker.
+
+email_address   : you actual email address ( e.g. ce@inbox.com )
+username	: username of the account ( e.g. ce or ce@inbox.com )
+password        : password of the accounts ( e.g. 123456 )
+email_provider  : the mail provider (e.g. inbox.com, gmail.com...)
+port            : None by default. Change it only if you know what you are doing
+ssl             : False/true. If your Mail provider supports is set it True. You can try both if you are not sure
+
+
+
+
+[4]. Test your account(s) using testEmail.py
+
+It is recommented that you use this script before you run the mailWorker. 
+Be sure that you configured your accounts correctly before moving further.
+Open a terminal window, move to mailWorker/ folder and run:
+~$ python testEmail.py [email address of your choise]
+~$ python testEmail.py my@test.com
+
+The script will sent a test email to the provided address from all the 
+configured accounts (senders.py)
+
+
+
+
+[3]. Configure receivers.txt
+
+Add all the email addresses you want to sent your message. One email address per line.
+You can add as many Receivers as you like.
+abc@example.com
+bcd@gmail.com
+cde@yahoo.com
+
+
+
+
+[4]. Run the campain! (mailWorker.py)
+
+mailWorker takes some arguements. You need at least to set the email
+using -e or --email.
+
+~$ python mailWorker.py -e "Hello World"
+
+
+Additionally you can add subject for your email. Subject is how the email appears
+inside the inbox. use -s or --subject
+
+~$ python mailWorker.py -s "mailWorker says:" -e "Hello World"
+
+
+If you want to send an email with html layout use -F or --format and 
+replace -e argument with html.
+-F or --format arguement takes either "plain" or "html"
+
+~$ python mailWorker.py -F html -s "mailWorker says:" -e "<html><head></head><body><h3> HELLO WORLD </h3><p>I missed you so much</p></body></html>"
+
+Finally you can specify another file instead of receivers.txt that is used by
+default with -f --file arguement
+
+~$ python mailWorker.py -f ~/Desktop/tobespammed.txt -F html -s "mailWorker says:" -e "<html><head></head><body><h3> HELLO WORLD </h3><p>I would vote for you</p></body></html>"
+
+
+
+
+
